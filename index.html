@@ -9,6 +9,11 @@
       margin: 0;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: black;
     }
 
     #vanta-bg {
@@ -21,11 +26,60 @@
 
     #progress-text {
       position: fixed;
-      top: 20px;
-      left: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       color: #f0f0f0;
-      font-size: 24px;
+      font-size: 48px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de;
+      animation: rainbow 2s linear infinite;
       z-index: 10;
+    }
+
+    @keyframes rainbow {
+      0% { color: #ff00de }
+      10% { color: #f87060 }
+      20% { color: #ffce38 }
+      30% { color: #30c9e8 }
+      40% { color: #28d17e }
+      50% { color: #80c5ff }
+      60% { color: #b4a9ff }
+      70% { color: #ff84e8 }
+      80% { color: #ffc6c6 }
+      90% { color: #ffd666 }
+      100% { color: #ffffff }
+    }
+
+    .heart {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background-image: url('https://i.imgur.com/jSoJmON.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: heart 2s ease infinite;
+    }
+
+    @keyframes heart {
+      0% {
+        transform: scale(0.75);
+      }
+      20% {
+        transform: scale(1);
+      }
+      40% {
+        transform: scale(0.75);
+      }
+      60% {
+        transform: scale(1);
+      }
+      80% {
+        transform: scale(0.75);
+      }
+      100% {
+        transform: scale(0.75);
+      }
     }
   </style>
 </head>
@@ -38,7 +92,6 @@
 
   <!-- Vanta.js library -->
   <script src="https://rawcdn.githack.com/tengbao/vanta/master/dist/vanta.halo.min.js"></script>
-
   <script>
     const vantaEffect = VANTA.HALO({
       el: "#vanta-bg",
@@ -64,6 +117,16 @@
         // Update yOffset
         const newYOffset = -0.02 + (0 - (-0.02)) * (progress / 100);
         vantaEffect.setOptions({ yOffset: newYOffset });
+
+        // Create heart effect
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.top = `${Math.random() * 100}%`;
+        heart.style.left = `${Math.random() * 100}%`;
+        document.body.appendChild(heart);
+        setTimeout(() => {
+          heart.remove();
+        }, 2000);
 
         setTimeout(updateProgress, 1000);
       }
